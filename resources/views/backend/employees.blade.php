@@ -34,7 +34,7 @@
         <div class="profile-widget">
             <div class="profile-img">
                 <a href="javascript:void(0)" class="avatar">
-                    <img alt="avatar" src="{{ $employee->photo ? 'http://13.210.213.33:8085/files/'. $employee->photo : 'assets/img/profiles/default.jpg' }}">
+                    <img alt="avatar" src="{{ $employee->photo ? 'http://13.238.120.199:8085/files/'. $employee->photo : 'assets/img/profiles/default.jpg' }}">
                 </a>
             </div>
             <div class="dropdown profile-action">
