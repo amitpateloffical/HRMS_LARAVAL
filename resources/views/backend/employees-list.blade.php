@@ -36,6 +36,7 @@
 					<tr>
 						<th>Name</th>
 						<th>Employee ID</th>
+						<th>Attendance</th>
 						<th>Email</th>
 						<th>Mobile</th>
 						<th class="text-nowrap">Join Date</th>
@@ -52,6 +53,7 @@
 							</h2>
 						</td>
 						<td>{{$employee->emp_code}}</td>
+						<td>{{ App\Services\AttendanceService::getMonthlyAttendance($employee->emp_code) }}</td>
 						<td>{{$employee->email}}</td>
 						<td>{{$employee->mobile}}</td>
 						<td>{{ $employee->hire_date ? Carbon\Carbon::parse($employee->hire_date)->format('d F Y') : '-' }}</td>

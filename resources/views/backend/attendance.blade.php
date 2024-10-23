@@ -36,6 +36,7 @@
 						<th>TimeOut</th>
 						<th>Date</th>
 						<th>Hours</th>
+						<th>Monthly Attendance</th>
 						<th class="text-end">Action</th>
 					</tr>
 				</thead>
@@ -48,6 +49,7 @@
 							<td>{{ format_date($attendance->check_out, 'd M Y g:iA') }}</td>
 							<td>{{ format_date($attendance->check_in, 'l, d M Y') }}</td>
 							<td>{{ get_hours($attendance->check_in, $attendance->check_out, $attendance->emp_code) }}</td>
+							<td>{{ '' }}</td>
 							<td>-</td>
 						</tr>
 					@endforeach

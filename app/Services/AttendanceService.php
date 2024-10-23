@@ -70,4 +70,62 @@ class AttendanceService
 
         return count($reports) . ' Reports Sent';
     }
+
+    public static function getMonthlyAttendance($employee_code)
+    {
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+
+        $attendance = 0;
+        $total_days = 0;
+        $employee = PersonnelEmployee::where('emp_code', $employee_code)->first();
+
+        // get todays date, loop through all days and get all except sundays
+
+        if ($employee) {
+            
+            while ($startOfMonth->lte($endOfMonth)) {
+                
+                $startOfMonth->addDay();
+                $is_sunday = $startOfMonth->format('D') == 'Sun';
+
+                if (!$is_sunday)
+                {
+                    $total_days++;
+
+                    try {
+                        $status = 'Present';
+
+                        $first_punch_in = IclockTransaction::whereDate('punch_time', $startOfMonth)
+                                        ->where([
+                                            'emp_code' => $employee->emp_code,
+                                            'punch_state' => 0
+                                        ])->orderBy('id', 'asc')->first();
+                        $last_punch_out = IclockTransaction::whereDate('punch_time', $startOfMonth)
+                                            ->where([
+                                                'emp_code' => $employee->emp_code,
+                                                'punch_state' => 1
+                                            ])->orderBy('id', 'desc')->first();
+
+                        if (!$first_punch_in && !$last_punch_out)
+                        {
+                            $status = 'Absent';
+                        }
+
+                        $is_present = $status == "Present";
+
+                        if ($is_present) {
+                            $attendance++;
+                        }
+            
+                    } catch (\Exception $e) {
+                        // 
+                    }
+                }
+                
+            }
+        }
+
+        return "$attendance / $total_days";
+    }
 }
